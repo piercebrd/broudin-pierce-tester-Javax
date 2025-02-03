@@ -19,17 +19,25 @@ public class FareCalculatorService {
         if (durationInHours < 0) {
             throw new IllegalArgumentException("Parking duration cannot be negative");
         }
-
-        switch (ticket.getParkingSpot().getParkingType()){
-            case CAR: {
-                ticket.setPrice(durationInHours * Fare.CAR_RATE_PER_HOUR);
-                break;
-            }
-            case BIKE: {
-                ticket.setPrice(durationInHours * Fare.BIKE_RATE_PER_HOUR);
-                break;
-            }
-            default: throw new IllegalArgumentException("Unkown Parking Type");
+        // Si la durée de stationnement est inférieure à 30 min, alors
+        // je set le prix à 0.
+        // Sinon, je rentre dans le switch
+        if (durationInHours < 0.5) {
+            ticket.setPrice(0);
         }
+        else {
+            switch (ticket.getParkingSpot().getParkingType()){
+                case CAR: {
+                    ticket.setPrice(durationInHours * Fare.CAR_RATE_PER_HOUR);
+                    break;
+                }
+                case BIKE: {
+                    ticket.setPrice(durationInHours * Fare.BIKE_RATE_PER_HOUR);
+                    break;
+                }
+                default: throw new IllegalArgumentException("Unknown Parking Type");
+            }
+        }
+
     }
 }
