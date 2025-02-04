@@ -5,7 +5,7 @@ import com.parkit.parkingsystem.model.Ticket;
 
 <span class="fc" id="L6">public class FareCalculatorService {</span>
 
-    public void calculateFare(Ticket ticket){
+    public void calculateFare(Ticket ticket, boolean discount){
 <span class="pc bpc" id="L9" title="1 of 4 branches missed.">        if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){</span>
 <span class="fc" id="L10">            throw new IllegalArgumentException(&quot;Out time provided is incorrect:&quot;+ticket.getOutTime().toString());</span>
         }
@@ -19,18 +19,36 @@ import com.parkit.parkingsystem.model.Ticket;
 <span class="pc bpc" id="L19" title="1 of 2 branches missed.">        if (durationInHours &lt; 0) {</span>
 <span class="nc" id="L20">            throw new IllegalArgumentException(&quot;Parking duration cannot be negative&quot;);</span>
         }
-
-<span class="pc bpc" id="L23" title="1 of 3 branches missed.">        switch (ticket.getParkingSpot().getParkingType()){</span>
-            case CAR: {
-<span class="fc" id="L25">                ticket.setPrice(durationInHours * Fare.CAR_RATE_PER_HOUR);</span>
-<span class="fc" id="L26">                break;</span>
-            }
-            case BIKE: {
-<span class="fc" id="L29">                ticket.setPrice(durationInHours * Fare.BIKE_RATE_PER_HOUR);</span>
-<span class="fc" id="L30">                break;</span>
-            }
-<span class="nc" id="L32">            default: throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);</span>
+        // Si la durée de stationnement est inférieure à 30 min, alors
+        // je set le prix à 0.
+        // Sinon, je rentre dans le switch
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (durationInHours &lt; 0.5) {</span>
+<span class="fc" id="L26">            ticket.setPrice(0);</span>
         }
-<span class="fc" id="L34">    }</span>
+        else {
+            double price;
+
+<span class="pc bpc" id="L31" title="1 of 3 branches missed.">            switch (ticket.getParkingSpot().getParkingType()){</span>
+                case CAR: {
+<span class="fc" id="L33">                    price = durationInHours * Fare.CAR_RATE_PER_HOUR;</span>
+<span class="fc" id="L34">                    break;</span>
+                }
+                case BIKE: {
+<span class="fc" id="L37">                    price = durationInHours * Fare.BIKE_RATE_PER_HOUR;</span>
+<span class="fc" id="L38">                    break;</span>
+                }
+<span class="nc" id="L40">                default: throw new IllegalArgumentException(&quot;Unknown Parking Type&quot;);</span>
+            }
+
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (discount) {</span>
+<span class="fc" id="L44">                price *= 0.95;</span>
+            }
+<span class="fc" id="L46">            ticket.setPrice(price);</span>
+        }
+<span class="fc" id="L48">    }</span>
+
+    public void calculateFare(Ticket ticket){
+<span class="fc" id="L51">        calculateFare(ticket, false);</span>
+<span class="fc" id="L52">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
