@@ -109,5 +109,16 @@ public class ParkingServiceTest {
         assertTrue(parkingSpot.isAvailable());
     }
 
+    @Test
+    public void testGetNextParkingNumberIfAvailableParkingNumberNotFound() {
+        when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(0);
+
+        ParkingSpot parkingSpot  = parkingService.getNextParkingNumberIfAvailable();
+
+        assertNull(parkingSpot);
+    }
+
+
+
 
 }
