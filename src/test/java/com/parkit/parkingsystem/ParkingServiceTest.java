@@ -35,21 +35,24 @@ public class ParkingServiceTest {
     public void setUpPerTest() {
         try {
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-            when(inputReaderUtil.readSelection()).thenReturn(1);
+            lenient().when(inputReaderUtil.readSelection()).thenReturn(1);
 
 
             ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
-            when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1);
+            lenient().when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1);
 
 
             Ticket ticket = new Ticket();
             ticket.setInTime(new Date(System.currentTimeMillis() - (60*60*1000)));
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehicleRegNumber("ABCDEF");
+
             lenient().when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
+
+
             lenient().when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
 
-            when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
+            lenient().when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
 
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         } catch (Exception e) {
@@ -80,6 +83,19 @@ public class ParkingServiceTest {
         verify(ticketDAO, times(1)).getNbTicket(anyString());
         verify(parkingSpotDAO, times(1)).updateParking(any(ParkingSpot.class));
         verify(ticketDAO, times(1)).saveTicket(any(Ticket.class));
+    }
+
+    @Test
+    public void processExitingVehicleTestUnableUpdate() {
+
+        when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(false);
+
+        parkingService.processExitingVehicle();
+
+        verify(ticketDAO, times(1)).getTicket(anyString());
+        verify(ticketDAO, times(1)).updateTicket(any(Ticket.class));
+        verify(parkingSpotDAO, never()).updateParking(any(ParkingSpot.class));
+
     }
 
 
