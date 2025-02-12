@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Date;
 
 import static junit.framework.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -100,6 +101,7 @@ public class ParkingServiceTest {
 
     @Test
     public void testGetNextParkingNumberIfAvailable() {
+
         when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1);
 
         ParkingSpot parkingSpot  = parkingService.getNextParkingNumberIfAvailable();
@@ -116,6 +118,17 @@ public class ParkingServiceTest {
         ParkingSpot parkingSpot  = parkingService.getNextParkingNumberIfAvailable();
 
         assertNull(parkingSpot);
+    }
+
+    @Test
+    public void testGetNextParkingNumberIfAvailableParkingWrongArgument() {
+        when(inputReaderUtil.readSelection()).thenReturn(3);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+                parkingService.getNextParkingNumberIfAvailable();
+        });
+        assertEquals("Entered input is invalid", exception.getMessage());
+
     }
 
 

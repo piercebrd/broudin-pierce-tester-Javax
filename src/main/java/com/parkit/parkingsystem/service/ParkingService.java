@@ -52,7 +52,6 @@ public class ParkingService {
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(0);
                 ticket.setInTime(inTime);
-                ticket.setOutTime(null);
                 ticketDAO.saveTicket(ticket);
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
@@ -81,6 +80,7 @@ public class ParkingService {
             }
         }catch(IllegalArgumentException ie){
             logger.error("Error parsing user input for type of vehicle", ie);
+            throw ie;
         }catch(Exception e){
             logger.error("Error fetching next available parking slot", e);
         }
@@ -114,8 +114,14 @@ public class ParkingService {
             ticket.setOutTime(outTime);
 
             boolean discount = ticketDAO.getNbTicket(vehicleRegNumber) > 1;
-
+            // System.out.println("DEBUG: Calculating fare for ticket with inTime=" + ticket.getInTime() + ", outTime=" + ticket.getOutTime());
+            // System.out.println("DEBUG: Setting outTime=" + outTime);
+            System.out.println("DEBUG: Fare Calculation - In Time: " + ticket.getInTime() + ", Out Time: " + ticket.getOutTime());
             fareCalculatorService.calculateFare(ticket, discount);
+            System.out.println("DEBUG: Fare after calculation = " + ticket.getPrice());
+
+            /*boolean updated = ticketDAO.updateTicket(ticket);
+            System.out.println("DEBUG: Ticket update success = " + updated + ", fare = " + ticket.getPrice());*/
 
             if(ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();

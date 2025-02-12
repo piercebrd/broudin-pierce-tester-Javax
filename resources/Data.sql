@@ -1,14 +1,14 @@
 /* Setting up PROD DB */
-create database prod;
+-- create database prod;
 use prod;
 
-create table parking(
+create table if not exists parking(
 PARKING_NUMBER int PRIMARY KEY,
 AVAILABLE bool NOT NULL,
 TYPE varchar(10) NOT NULL
 );
 
-create table ticket(
+create table if not exists ticket(
  ID int PRIMARY KEY AUTO_INCREMENT,
  PARKING_NUMBER int NOT NULL,
  VEHICLE_REG_NUMBER varchar(10) NOT NULL,
@@ -26,16 +26,22 @@ insert into parking(PARKING_NUMBER,AVAILABLE,TYPE) values(5,true,'BIKE');
 commit;
 
 /* Setting up TEST DB */
-create database test;
+-- create database test;
 use test;
 
-create table parking(
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE ticket;
+TRUNCATE TABLE parking;
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+create table if not exists parking(
 PARKING_NUMBER int PRIMARY KEY,
 AVAILABLE bool NOT NULL,
 TYPE varchar(10) NOT NULL
 );
 
-create table ticket(
+create table if not exists ticket(
  ID int PRIMARY KEY AUTO_INCREMENT,
  PARKING_NUMBER int NOT NULL,
  VEHICLE_REG_NUMBER varchar(10) NOT NULL,
