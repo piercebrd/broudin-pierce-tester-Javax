@@ -114,19 +114,19 @@ public class ParkingService {
             ticket.setOutTime(outTime);
 
             boolean discount = ticketDAO.getNbTicket(vehicleRegNumber) > 1;
-            // System.out.println("DEBUG: Calculating fare for ticket with inTime=" + ticket.getInTime() + ", outTime=" + ticket.getOutTime());
-            // System.out.println("DEBUG: Setting outTime=" + outTime);
-            System.out.println("DEBUG: Fare Calculation - In Time: " + ticket.getInTime() + ", Out Time: " + ticket.getOutTime());
-            fareCalculatorService.calculateFare(ticket, discount);
-            System.out.println("DEBUG: Fare after calculation = " + ticket.getPrice());
 
-            /*boolean updated = ticketDAO.updateTicket(ticket);
-            System.out.println("DEBUG: Ticket update success = " + updated + ", fare = " + ticket.getPrice());*/
+            fareCalculatorService.calculateFare(ticket, discount);
+
 
             if(ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);
+
+                boolean updateSuccess = parkingSpotDAO.updateParking(parkingSpot);
+
                 parkingSpotDAO.updateParking(parkingSpot);
+
+
                 System.out.println("Please pay the parking fare:" + ticket.getPrice());
                 System.out.println("Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" + outTime);
             }else{
