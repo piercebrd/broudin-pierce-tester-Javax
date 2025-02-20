@@ -20,17 +20,42 @@ import static junit.framework.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for the {@link ParkingService}.
+
+
+ * These tests verify that:
+ * - Vehicles are correctly parked and assigned tickets.
+ * - Vehicles exiting are properly processed.
+ * - Parking spot availability is updated correctly.
+ * - Edge cases such as unavailable parking spots and invalid inputs are handled.
+ */
+
 @ExtendWith(MockitoExtension.class)
 public class ParkingServiceTest {
 
+    /** The service instance being tested. */
+
     private static ParkingService parkingService;
+
+    /** Mocked user input utility. */
 
     @Mock
     private static InputReaderUtil inputReaderUtil;
+
+    /** Mocked DAO for managing parking spots. */
+
     @Mock
     private static ParkingSpotDAO parkingSpotDAO;
+
+    /** Mocked DAO for managing tickets. */
+
     @Mock
     private static TicketDAO ticketDAO;
+
+    /**
+     * Sets up test dependencies and default mock behaviors before each test.
+     */
 
     @BeforeEach
     public void setUpPerTest() {
@@ -62,6 +87,15 @@ public class ParkingServiceTest {
         }
     }
 
+    /**
+     * Tests that a vehicle exiting the parking lot is correctly processed.
+
+     * Ensures that:
+     * - The ticket record is retrieved.
+     * - The ticket is updated.
+     * - The parking spot availability is modified accordingly.
+     */
+
     @Test
     public void processExitingVehicleTest(){
         // Act
@@ -72,6 +106,15 @@ public class ParkingServiceTest {
         verify(ticketDAO, times(1)).updateTicket(any(Ticket.class));
         //verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
     }
+
+    /**
+     * Tests that a new vehicle entering the parking lot is correctly processed.
+     * Ensures that:
+     * - The parking spot is allocated.
+     * - The ticket is created and saved.
+     * - The parking spot availability is updated.
+     * @throws Exception If user input reading fails.
+     */
 
     @Test
     public void processIncomingVehicleTest() throws Exception{
@@ -86,6 +129,12 @@ public class ParkingServiceTest {
         verify(ticketDAO, times(1)).saveTicket(any(Ticket.class));
     }
 
+    /**
+     * Tests the case where updating a ticket during vehicle exit fails.
+     * <p>
+     * Ensures that the parking spot is NOT updated if the ticket update fails.
+     */
+
     @Test
     public void processExitingVehicleTestUnableUpdate() {
 
@@ -99,6 +148,13 @@ public class ParkingServiceTest {
 
     }
 
+    /**
+     * Tests retrieving the next available parking spot.
+     * Ensures that:
+     * - The correct parking spot is returned.
+     * - The parking spot is marked as available.
+     */
+
     @Test
     public void testGetNextParkingNumberIfAvailable() {
 
@@ -111,6 +167,11 @@ public class ParkingServiceTest {
         assertTrue(parkingSpot.isAvailable());
     }
 
+    /**
+     * Tests retrieving the next parking spot when no spots are available.
+     * Ensures that the method returns {@code null}.
+     */
+
     @Test
     public void testGetNextParkingNumberIfAvailableParkingNumberNotFound() {
         when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(0);
@@ -119,6 +180,11 @@ public class ParkingServiceTest {
 
         assertNull(parkingSpot);
     }
+
+    /**
+     * Tests retrieving the next parking spot when an invalid vehicle type is provided.
+     * Ensures that an {@link IllegalArgumentException} is thrown.
+     */
 
     @Test
     public void testGetNextParkingNumberIfAvailableParkingWrongArgument() {

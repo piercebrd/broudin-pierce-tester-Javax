@@ -19,16 +19,46 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static junit.framework.Assert.*;
 import static org.mockito.Mockito.when;
 
+/**
+ * Integration tests for parking system database operations.
+
+ * These tests ensure that:
+ * - Vehicles are correctly parked and assigned a ticket.
+ * - The parking system correctly processes vehicle exits.
+ * - Recurring users receive the appropriate discount.
+ * - The database updates parking spot availability correctly.
+
+ */
+
 @ExtendWith(MockitoExtension.class)
 public class ParkingDataBaseIT {
 
+    /** Test database configuration. */
+
     private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
+
+    /** DAO for managing parking spot availability. */
+
     private static ParkingSpotDAO parkingSpotDAO;
+
+    /** DAO for managing ticket records. */
+
     private static TicketDAO ticketDAO;
+
+    /** Service for resetting test database entries. */
+
     private static DataBasePrepareService dataBasePrepareService;
+
+    /** Mocked input reader utility for simulating user input. */
 
     @Mock
     private static InputReaderUtil inputReaderUtil;
+
+    /**
+     * Initializes test dependencies before all tests.
+     *
+     * @throws Exception If setup fails.
+     */
 
     @BeforeAll
     private static void setUp() throws Exception{
@@ -39,6 +69,12 @@ public class ParkingDataBaseIT {
         dataBasePrepareService = new DataBasePrepareService();
     }
 
+    /**
+     * Prepares the test environment before each test execution.
+     *
+     * @throws Exception If setup fails.
+     */
+
     @BeforeEach
     private void setUpPerTest() throws Exception {
         when(inputReaderUtil.readSelection()).thenReturn(1);
@@ -46,10 +82,22 @@ public class ParkingDataBaseIT {
         dataBasePrepareService.clearDataBaseEntries();
     }
 
+    /**
+     * Cleans up resources after all tests have been executed.
+     */
     @AfterAll
     private static void tearDown(){
 
     }
+
+    /**
+     * Tests the parking process for a car.
+
+     * Ensures that:
+     * - A ticket is created in the database.
+     * - The assigned parking spot is marked as unavailable.
+
+     */
 
     @Test
     public void testParkingACar(){
@@ -72,6 +120,18 @@ public class ParkingDataBaseIT {
 
         //TODO: check that a ticket is actually saved in DB and Parking table is updated with availability
     }
+
+    /**
+     * Tests the vehicle exit process from the parking lot.
+
+     * Ensures that:
+     * - The ticket's exit time is recorded.
+     * - The correct fare is applied.
+     * - The parking spot is marked as available after vehicle exit.
+
+     *
+     * @throws Exception If the test is interrupted.
+     */
 
     @Test
     public void testParkingLotExit() throws Exception{
@@ -102,6 +162,15 @@ public class ParkingDataBaseIT {
 
         //TODO: check that the fare generated and out time are populated correctly in the database
     }
+
+    /**
+     * Tests the vehicle exit process for a recurring user.
+
+     * Ensures that:
+     * - A recurring user receives a 5% discount on parking fees.
+     * - The discount is applied correctly after at least one previous visit.
+
+     */
 
     @Test
     public void testParkingLotExitRecurringUser() {

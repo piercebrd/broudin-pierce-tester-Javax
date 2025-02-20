@@ -6,9 +6,26 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
+/**
+ * Database configuration class for integration testing.
+
+ * This class extends {@link DataBaseConfig} and provides methods to establish
+ * and manage database connections specifically for test environments.
+
+ */
 public class DataBaseTestConfig extends DataBaseConfig {
 
+    /** Logger instance for logging database operations related to tests. */
+
     private static final Logger logger = LogManager.getLogger("DataBaseTestConfig");
+
+    /**
+     * Establishes and returns a connection to the test database.
+     *
+     * @return A {@link Connection} object to interact with the test database.
+     * @throws ClassNotFoundException If the JDBC driver is not found.
+     * @throws SQLException If an error occurs while connecting to the database.
+     */
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         logger.info("Create DB connection");
@@ -16,6 +33,12 @@ public class DataBaseTestConfig extends DataBaseConfig {
         return DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/test","root","pokju147");
     }
+
+    /**
+     * Closes an active database connection.
+     *
+     * @param con The {@link Connection} object to be closed.
+     */
 
     public void closeConnection(Connection con){
         if(con!=null){
@@ -28,6 +51,12 @@ public class DataBaseTestConfig extends DataBaseConfig {
         }
     }
 
+    /**
+     * Closes a prepared statement.
+     *
+     * @param ps The {@link PreparedStatement} object to be closed.
+     */
+
     public void closePreparedStatement(PreparedStatement ps) {
         if(ps!=null){
             try {
@@ -38,6 +67,12 @@ public class DataBaseTestConfig extends DataBaseConfig {
             }
         }
     }
+
+    /**
+     * Closes a result set.
+     *
+     * @param rs The {@link ResultSet} object to be closed.
+     */
 
     public void closeResultSet(ResultSet rs) {
         if(rs!=null){

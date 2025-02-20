@@ -5,9 +5,24 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
+/**
+ * Configuration class for database connections.
+ * This class manages the creation and closing of database connections,
+ * prepared statements, and result sets.
+ */
+
 public class DataBaseConfig {
 
+    /** Logger instance for logging database operations. */
     private static final Logger logger = LogManager.getLogger("DataBaseConfig");
+
+    /**
+     * Establishes and returns a connection to the database.
+     *
+     * @return A {@link Connection} object to interact with the database.
+     * @throws ClassNotFoundException If the JDBC driver is not found.
+     * @throws SQLException If an error occurs while connecting to the database.
+     */
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         logger.info("Create DB connection");
@@ -15,6 +30,12 @@ public class DataBaseConfig {
         return DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/prod","root","pokju147");
     }
+
+    /**
+     * Closes an active database connection.
+     *
+     * @param con The {@link Connection} object to be closed.
+     */
 
     public void closeConnection(Connection con){
         if(con!=null){
@@ -27,6 +48,12 @@ public class DataBaseConfig {
         }
     }
 
+    /**
+     * Closes a prepared statement.
+     *
+     * @param ps The {@link PreparedStatement} object to be closed.
+     */
+
     public void closePreparedStatement(PreparedStatement ps) {
         if(ps!=null){
             try {
@@ -37,6 +64,12 @@ public class DataBaseConfig {
             }
         }
     }
+
+    /**
+     * Closes a result set.
+     *
+     * @param rs The {@link ResultSet} object to be closed.
+     */
 
     public void closeResultSet(ResultSet rs) {
         if(rs!=null){

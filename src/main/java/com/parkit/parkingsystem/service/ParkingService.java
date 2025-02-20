@@ -11,21 +11,59 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 
+
+/**
+ * Service class responsible for managing parking operations.
+
+ * This class handles:
+ * - Assigning parking spots to incoming vehicles.
+ * - Processing exiting vehicles, calculating fares, and updating parking availability.
+
+ */
+
 public class ParkingService {
+
+    /** Logger instance for logging parking-related operations. */
 
     private static final Logger logger = LogManager.getLogger("ParkingService");
 
+    /** Service responsible for fare calculation. */
+
     private static FareCalculatorService fareCalculatorService = new FareCalculatorService();
 
+    /** Utility for reading user input. */
+
     private InputReaderUtil inputReaderUtil;
+
+    /** DAO for managing parking spot availability. */
+
     private ParkingSpotDAO parkingSpotDAO;
+
+    /** DAO for managing tickets in the database. */
+
     private  TicketDAO ticketDAO;
+
+    /**
+     * Constructs a {@link ParkingService} with the necessary dependencies.
+     *
+     * @param inputReaderUtil Utility for reading user input.
+     * @param parkingSpotDAO  DAO for managing parking spot availability.
+     * @param ticketDAO       DAO for managing ticket records.
+     */
 
     public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO, TicketDAO ticketDAO){
         this.inputReaderUtil = inputReaderUtil;
         this.parkingSpotDAO = parkingSpotDAO;
         this.ticketDAO = ticketDAO;
     }
+
+    /**
+     * Processes a new incoming vehicle.
+
+     * Allocates an available parking spot, records entry time,
+     * and creates a new ticket in the database.
+
+     */
 
     public void processIncomingVehicle() {
         try{
@@ -62,10 +100,24 @@ public class ParkingService {
         }
     }
 
+    /**
+     * Reads and returns the vehicle registration number from user input.
+     *
+     * @return The vehicle's registration number.
+     * @throws Exception If an error occurs while reading input.
+     */
+
     private String getVehicleRegNumber() throws Exception {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
+
+    /**
+     * Finds and returns the next available parking spot.
+     *
+     * @return The next available {@link ParkingSpot}, or {@code null} if no spots are available.
+     * @throws IllegalArgumentException If an invalid vehicle type is provided.
+     */
 
     public ParkingSpot getNextParkingNumberIfAvailable(){
         int parkingNumber=0;
@@ -87,6 +139,13 @@ public class ParkingService {
         return parkingSpot;
     }
 
+    /**
+     * Reads and returns the vehicle type from user input.
+     *
+     * @return The selected {@link ParkingType}.
+     * @throws IllegalArgumentException If an invalid input is provided.
+     */
+
     private ParkingType getVehicleType(){
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");
@@ -105,6 +164,13 @@ public class ParkingService {
             }
         }
     }
+
+    /**
+     * Processes a vehicle exiting the parking lot.
+
+     * Calculates the fare, updates the ticket, and marks the parking spot as available.
+
+     */
 
     public void processExitingVehicle() {
         try{

@@ -11,10 +11,31 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * Data Access Object (DAO) for managing parking spots in the database.
+
+ * This class provides methods to:
+ * - Retrieve the next available parking slot for a given vehicle type.
+ * - Update the availability of a parking spot.
+
+ */
+
 public class ParkingSpotDAO {
+
+    /** Logger instance for logging database operations related to parking spots. */
+
     private static final Logger logger = LogManager.getLogger("ParkingSpotDAO");
 
+    /** Database configuration instance to handle connections and resources. */
+
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
+
+    /**
+     * Retrieves the next available parking spot for a given parking type.
+     *
+     * @param parkingType The type of parking spot required (CAR or BIKE).
+     * @return The parking spot number if available, otherwise -1.
+     */
 
     public int getNextAvailableSlot(ParkingType parkingType){
         Connection con = null;
@@ -36,6 +57,13 @@ public class ParkingSpotDAO {
         }
         return result;
     }
+
+    /**
+     * Updates the availability status of a parking spot.
+     *
+     * @param parkingSpot The {@link ParkingSpot} object containing the updated information.
+     * @return {@code true} if the update was successful, otherwise {@code false}.
+     */
 
     public boolean updateParking(ParkingSpot parkingSpot){
         //update the availability fo that parking slot

@@ -13,11 +13,33 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 
+/**
+ * Data Access Object (DAO) for managing parking tickets in the database.
+
+ * This class provides methods to:
+ * - Save a new parking ticket.
+ * - Retrieve an existing ticket for a vehicle.
+ * - Update a ticket with price and exit time.
+ * - Count the number of tickets issued for a vehicle.
+
+ */
+
 public class TicketDAO {
+
+    /** Logger instance for logging ticket-related database operations. */
 
     private static final Logger logger = LogManager.getLogger("TicketDAO");
 
+    /** Database configuration instance to handle connections and resources. */
+
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
+
+    /**
+     * Saves a parking ticket to the database.
+     *
+     * @param ticket The {@link Ticket} object containing the ticket details.
+     * @return {@code true} if the ticket was successfully saved, otherwise {@code false}.
+     */
 
     public boolean saveTicket(Ticket ticket){
         Connection con = null;
@@ -39,6 +61,13 @@ public class TicketDAO {
             return false;
         }
     }
+
+    /**
+     * Retrieves the most recent ticket for a given vehicle registration number.
+     *
+     * @param vehicleRegNumber The vehicle's registration number.
+     * @return A {@link Ticket} object if found, otherwise {@code null}.
+     */
 
     public Ticket getTicket(String vehicleRegNumber) {
         Connection con = null;
@@ -74,6 +103,13 @@ public class TicketDAO {
         }
     }
 
+    /**
+     * Updates an existing parking ticket with price and exit time.
+     *
+     * @param ticket The {@link Ticket} object with updated details.
+     * @return {@code true} if the update was successful, otherwise {@code false}.
+     */
+
     public boolean updateTicket(Ticket ticket) {
         Connection con = null;
         try {
@@ -91,6 +127,13 @@ public class TicketDAO {
         }
         return false;
     }
+
+    /**
+     * Counts the number of tickets issued for a given vehicle registration number.
+     *
+     * @param vehicleRegNumber The vehicle's registration number.
+     * @return The total number of tickets issued for the vehicle.
+     */
 
     public int getNbTicket(String vehicleRegNumber) {
         Connection con = null;

@@ -3,7 +3,24 @@ package com.parkit.parkingsystem.service;
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
+
+/**
+ * Service class for calculating parking fares.
+
+ * This service determines the parking fee based on vehicle type,
+ * duration of stay, and whether a discount applies.
+
+ */
+
 public class FareCalculatorService {
+
+    /**
+     * Calculates the fare for a given parking ticket.
+     *
+     * @param ticket   The {@link Ticket} object containing parking details.
+     * @param discount {@code true} if a discount applies, otherwise {@code false}.
+     * @throws IllegalArgumentException If the exit time is null or earlier than the entry time.
+     */
 
     public void calculateFare(Ticket ticket, boolean discount){
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
@@ -19,9 +36,7 @@ public class FareCalculatorService {
         if (durationInHours < 0) {
             throw new IllegalArgumentException("Parking duration cannot be negative");
         }
-        // Si la durée de stationnement est inférieure à 30 min, alors
-        // je set le prix à 0.
-        // Sinon, je rentre dans le switch
+        // If duration is less than 30 min, parking is free
         if (durationInHours < 0.5) {
             ticket.setPrice(0);
         }
@@ -46,6 +61,12 @@ public class FareCalculatorService {
             ticket.setPrice(price);
         }
     }
+
+    /**
+     * Calculates the fare for a parking ticket without a discount.
+     *
+     * @param ticket The {@link Ticket} object containing parking details.
+     */
 
     public void calculateFare(Ticket ticket){
         calculateFare(ticket, false);
