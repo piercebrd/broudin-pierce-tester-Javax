@@ -104,7 +104,6 @@ public class ParkingServiceTest {
         // Assert
         verify(ticketDAO, times(1)).getNbTicket(anyString());
         verify(ticketDAO, times(1)).updateTicket(any(Ticket.class));
-        //verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
     }
 
     /**

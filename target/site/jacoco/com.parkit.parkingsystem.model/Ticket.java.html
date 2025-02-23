@@ -3,60 +3,160 @@
 import java.util.Calendar;
 import java.util.Date;
 
-<span class="fc" id="L6">public class Ticket {</span>
+
+/**
+ * Represents a parking ticket in the Parkit parking system.
+
+ * Each ticket contains information about the parking spot,
+ * vehicle registration number, price, and timestamps for entry and exit.
+
+ */
+
+<span class="fc" id="L15">public class Ticket {</span>
+
+    /** Unique identifier for the ticket. */
+
     private int id;
+
+    /** The parking spot associated with this ticket. */
+
     private ParkingSpot parkingSpot;
+
+    /** The vehicle's registration number. */
+
     private String vehicleRegNumber;
+
+    /** The total price charged for the parking duration. */
+
     private double price;
+
+    /** The timestamp when the vehicle entered the parking lot. */
+
     private Date inTime;
+
+    /** The timestamp when the vehicle exited the parking lot. */
+
     private Date outTime;
 
+    /**
+     * Gets the unique identifier of the ticket.
+     *
+     * @return The ticket ID.
+     */
+
     public int getId() {
-<span class="fc" id="L15">        return id;</span>
+<span class="fc" id="L48">        return id;</span>
     }
+
+    /**
+     * Sets the unique identifier for the ticket.
+     *
+     * @param id The new ticket ID.
+     */
 
     public void setId(int id) {
-<span class="fc" id="L19">        this.id = id;</span>
-<span class="fc" id="L20">    }</span>
+<span class="fc" id="L58">        this.id = id;</span>
+<span class="fc" id="L59">    }</span>
+
+    /**
+     * Gets the parking spot associated with this ticket.
+     *
+     * @return The {@link ParkingSpot} object linked to this ticket.
+     */
 
     public ParkingSpot getParkingSpot() {
-<span class="fc" id="L23">        return parkingSpot;</span>
+<span class="fc" id="L68">        return parkingSpot;</span>
     }
+
+    /**
+     * Sets the parking spot for this ticket.
+     *
+     * @param parkingSpot The {@link ParkingSpot} to associate with this ticket.
+     */
 
     public void setParkingSpot(ParkingSpot parkingSpot) {
-<span class="fc" id="L27">        this.parkingSpot = parkingSpot;</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L78">        this.parkingSpot = parkingSpot;</span>
+<span class="fc" id="L79">    }</span>
+
+    /**
+     * Gets the vehicle's registration number.
+     *
+     * @return The vehicle registration number.
+     */
 
     public String getVehicleRegNumber() {
-<span class="fc" id="L31">        return vehicleRegNumber;</span>
+<span class="fc" id="L88">        return vehicleRegNumber;</span>
     }
+
+    /**
+     * Sets the vehicle's registration number.
+     *
+     * @param vehicleRegNumber The vehicle registration number.
+     */
 
     public void setVehicleRegNumber(String vehicleRegNumber) {
-<span class="fc" id="L35">        this.vehicleRegNumber = vehicleRegNumber;</span>
-<span class="fc" id="L36">    }</span>
+<span class="fc" id="L98">        this.vehicleRegNumber = vehicleRegNumber;</span>
+<span class="fc" id="L99">    }</span>
+
+    /**
+     * Gets the total price charged for parking.
+     *
+     * @return The parking fee.
+     */
 
     public double getPrice() {
-<span class="fc" id="L39">        return price;</span>
+<span class="fc" id="L108">        return price;</span>
     }
+
+    /**
+     * Sets the total price charged for parking.
+     *
+     * @param price The parking fee.
+     */
 
     public void setPrice(double price) {
-<span class="fc" id="L43">        this.price = price;</span>
-<span class="fc" id="L44">    }</span>
+<span class="fc" id="L118">        this.price = price;</span>
+<span class="fc" id="L119">    }</span>
+
+    /**
+     * Gets the entry time of the vehicle.
+     *
+     * @return The {@link Date} representing when the vehicle entered.
+     */
+
 
     public Date getInTime() {
-<span class="fc" id="L47">        return inTime;</span>
+<span class="fc" id="L129">        return inTime;</span>
     }
+
+    /**
+     * Sets the entry time of the vehicle.
+     *
+     * @param inTime The {@link Date} representing when the vehicle entered.
+     */
 
     public void setInTime(Date inTime) {
-<span class="fc" id="L51">        this.inTime = inTime;</span>
-<span class="fc" id="L52">    }</span>
+<span class="fc" id="L139">        this.inTime = inTime;</span>
+<span class="fc" id="L140">    }</span>
+
+    /**
+     * Gets the exit time of the vehicle.
+     *
+     * @return The {@link Date} representing when the vehicle exited.
+     */
 
     public Date getOutTime() {
-<span class="fc" id="L55">        return outTime;</span>
+<span class="fc" id="L149">        return outTime;</span>
     }
 
+    /**
+     * Sets the exit time of the vehicle.
+     *
+     * @param outTime The {@link Date} representing when the vehicle exited.
+     */
+
     public void setOutTime(Date outTime) {
-<span class="fc" id="L59">        this.outTime = outTime;</span>
-<span class="fc" id="L60">    }</span>
+<span class="fc" id="L159">        this.outTime = outTime;</span>
+<span class="fc" id="L160">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -2,52 +2,127 @@
 
 import com.parkit.parkingsystem.constants.ParkingType;
 
+/**
+ * Represents a parking spot in the Parkit parking system.
+
+ * Each parking spot has a unique number, a type (CAR or BIKE),
+ * and an availability status.
+
+ */
+
+
 public class ParkingSpot {
+
+    /** The unique number identifying the parking spot. */
+
     private int number;
+
+    /** The type of vehicle that can use this parking spot (CAR or BIKE). */
+
     private ParkingType parkingType;
+
+    /** Indicates whether the parking spot is available for use. */
+
     private boolean isAvailable;
 
-<span class="fc" id="L10">    public ParkingSpot(int number, ParkingType parkingType, boolean isAvailable) {</span>
-<span class="fc" id="L11">        this.number = number;</span>
-<span class="fc" id="L12">        this.parkingType = parkingType;</span>
-<span class="fc" id="L13">        this.isAvailable = isAvailable;</span>
-<span class="fc" id="L14">    }</span>
+    /**
+     * Constructs a new {@link ParkingSpot} with the given parameters.
+     *
+     * @param number      The unique identifier for the parking spot.
+     * @param parkingType The type of vehicle that can park here.
+     * @param isAvailable Whether the parking spot is currently available.
+     */
+
+<span class="fc" id="L36">    public ParkingSpot(int number, ParkingType parkingType, boolean isAvailable) {</span>
+<span class="fc" id="L37">        this.number = number;</span>
+<span class="fc" id="L38">        this.parkingType = parkingType;</span>
+<span class="fc" id="L39">        this.isAvailable = isAvailable;</span>
+<span class="fc" id="L40">    }</span>
+
+    /**
+     * Gets the unique identifier (number) of the parking spot.
+     *
+     * @return The parking spot number.
+     */
 
     public int getId() {
-<span class="fc" id="L17">        return number;</span>
+<span class="fc" id="L49">        return number;</span>
     }
+
+    /**
+     * Sets the unique identifier (number) of the parking spot.
+     *
+     * @param number The new parking spot number.
+     */
 
     public void setId(int number) {
-<span class="nc" id="L21">        this.number = number;</span>
-<span class="nc" id="L22">    }</span>
+<span class="nc" id="L59">        this.number = number;</span>
+<span class="nc" id="L60">    }</span>
+
+    /**
+     * Gets the parking type of this spot (CAR or BIKE).
+     *
+     * @return The {@link ParkingType} of the spot.
+     */
 
     public ParkingType getParkingType() {
-<span class="fc" id="L25">        return parkingType;</span>
+<span class="fc" id="L69">        return parkingType;</span>
     }
+
+    /**
+     * Sets the parking type of this spot.
+     *
+     * @param parkingType The new {@link ParkingType} for this spot.
+     */
 
     public void setParkingType(ParkingType parkingType) {
-<span class="nc" id="L29">        this.parkingType = parkingType;</span>
-<span class="nc" id="L30">    }</span>
+<span class="nc" id="L79">        this.parkingType = parkingType;</span>
+<span class="nc" id="L80">    }</span>
+
+    /**
+     * Checks if the parking spot is currently available.
+     *
+     * @return {@code true} if the spot is available, otherwise {@code false}.
+     */
 
     public boolean isAvailable() {
-<span class="fc" id="L33">        return isAvailable;</span>
+<span class="fc" id="L89">        return isAvailable;</span>
     }
 
+    /**
+     * Sets the availability status of the parking spot.
+     *
+     * @param available {@code true} to mark the spot as available, otherwise {@code false}.
+     */
+
     public void setAvailable(boolean available) {
-<span class="fc" id="L37">        isAvailable = available;</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L99">        isAvailable = available;</span>
+<span class="fc" id="L100">    }</span>
+
+    /**
+     * Compares two {@link ParkingSpot} objects based on their number.
+     *
+     * @param o The object to compare with.
+     * @return {@code true} if the parking spot numbers match, otherwise {@code false}.
+     */
 
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L42" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L43" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L44">        ParkingSpot that = (ParkingSpot) o;</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">        return number == that.number;</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L112" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L113">        ParkingSpot that = (ParkingSpot) o;</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        return number == that.number;</span>
     }
+
+    /**
+     * Generates a hash code based on the parking spot number.
+     *
+     * @return The hash code of the parking spot.
+     */
 
     @Override
     public int hashCode() {
-<span class="nc" id="L50">        return number;</span>
+<span class="nc" id="L125">        return number;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

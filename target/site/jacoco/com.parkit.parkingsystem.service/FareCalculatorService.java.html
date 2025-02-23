@@ -3,52 +3,73 @@
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
-<span class="fc" id="L6">public class FareCalculatorService {</span>
+
+/**
+ * Service class for calculating parking fares.
+
+ * This service determines the parking fee based on vehicle type,
+ * duration of stay, and whether a discount applies.
+
+ */
+
+<span class="fc" id="L15">public class FareCalculatorService {</span>
+
+    /**
+     * Calculates the fare for a given parking ticket.
+     *
+     * @param ticket   The {@link Ticket} object containing parking details.
+     * @param discount {@code true} if a discount applies, otherwise {@code false}.
+     * @throws IllegalArgumentException If the exit time is null or earlier than the entry time.
+     */
 
     public void calculateFare(Ticket ticket, boolean discount){
-<span class="pc bpc" id="L9" title="1 of 4 branches missed.">        if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){</span>
-<span class="fc" id="L10">            throw new IllegalArgumentException(&quot;Out time provided is incorrect:&quot;+ticket.getOutTime().toString());</span>
+<span class="pc bpc" id="L26" title="1 of 4 branches missed.">        if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){</span>
+<span class="fc" id="L27">            throw new IllegalArgumentException(&quot;Out time provided is incorrect:&quot;+ticket.getOutTime().toString());</span>
         }
 
-<span class="fc" id="L13">        long inTimeMillis = ticket.getInTime().getTime();</span>
-<span class="fc" id="L14">        long outTimeMillis = ticket.getOutTime().getTime();</span>
+<span class="fc" id="L30">        long inTimeMillis = ticket.getInTime().getTime();</span>
+<span class="fc" id="L31">        long outTimeMillis = ticket.getOutTime().getTime();</span>
 
         //TODO: Some tests are failing here. Need to check if this logic is correct
-<span class="fc" id="L17">        double durationInHours = (double) (outTimeMillis - inTimeMillis) / (1000 * 60 * 60);</span>
+<span class="fc" id="L34">        double durationInHours = (double) (outTimeMillis - inTimeMillis) / (1000 * 60 * 60);</span>
 
-<span class="pc bpc" id="L19" title="1 of 2 branches missed.">        if (durationInHours &lt; 0) {</span>
-<span class="nc" id="L20">            throw new IllegalArgumentException(&quot;Parking duration cannot be negative&quot;);</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">        if (durationInHours &lt; 0) {</span>
+<span class="nc" id="L37">            throw new IllegalArgumentException(&quot;Parking duration cannot be negative&quot;);</span>
         }
-        // Si la durée de stationnement est inférieure à 30 min, alors
-        // je set le prix à 0.
-        // Sinon, je rentre dans le switch
-<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (durationInHours &lt; 0.5) {</span>
-<span class="fc" id="L26">            ticket.setPrice(0);</span>
+        // If duration is less than 30 min, parking is free
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (durationInHours &lt; 0.5) {</span>
+<span class="fc" id="L41">            ticket.setPrice(0);</span>
         }
         else {
             double price;
 
-<span class="pc bpc" id="L31" title="1 of 3 branches missed.">            switch (ticket.getParkingSpot().getParkingType()){</span>
+<span class="pc bpc" id="L46" title="1 of 3 branches missed.">            switch (ticket.getParkingSpot().getParkingType()){</span>
                 case CAR: {
-<span class="fc" id="L33">                    price = durationInHours * Fare.CAR_RATE_PER_HOUR;</span>
-<span class="fc" id="L34">                    break;</span>
+<span class="fc" id="L48">                    price = durationInHours * Fare.CAR_RATE_PER_HOUR;</span>
+<span class="fc" id="L49">                    break;</span>
                 }
                 case BIKE: {
-<span class="fc" id="L37">                    price = durationInHours * Fare.BIKE_RATE_PER_HOUR;</span>
-<span class="fc" id="L38">                    break;</span>
+<span class="fc" id="L52">                    price = durationInHours * Fare.BIKE_RATE_PER_HOUR;</span>
+<span class="fc" id="L53">                    break;</span>
                 }
-<span class="nc" id="L40">                default: throw new IllegalArgumentException(&quot;Unknown Parking Type&quot;);</span>
+<span class="nc" id="L55">                default: throw new IllegalArgumentException(&quot;Unknown Parking Type&quot;);</span>
             }
 
-<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (discount) {</span>
-<span class="fc" id="L44">                price *= 0.95;</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            if (discount) {</span>
+<span class="fc" id="L59">                price *= 0.95;</span>
             }
-<span class="fc" id="L46">            ticket.setPrice(price);</span>
+<span class="fc" id="L61">            ticket.setPrice(price);</span>
         }
-<span class="fc" id="L48">    }</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * Calculates the fare for a parking ticket without a discount.
+     *
+     * @param ticket The {@link Ticket} object containing parking details.
+     */
 
     public void calculateFare(Ticket ticket){
-<span class="fc" id="L51">        calculateFare(ticket, false);</span>
-<span class="fc" id="L52">    }</span>
+<span class="fc" id="L72">        calculateFare(ticket, false);</span>
+<span class="fc" id="L73">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
